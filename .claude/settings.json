@@ -1,0 +1,25 @@
+{
+  "$schema": "https://json.schemastore.org/claude-code-settings.json",
+  "//": "Project settings for the ZCC Log Explorer. This repo is a local, offline log analyzer with no path to a live Zscaler tenant, so the Zscaler MCP server is denied here. Denying rather than allow-listing is deliberate: an allowlist would have to enumerate the MCP servers a contributor may legitimately use, and this repository is public. Every other MCP server a contributor has configured keeps working, untouched.",
+  "//why": "Analysis has to be reproducible from the uploaded bundle alone. A conclusion that quietly depended on live tenant state could not be reproduced by the next engineer reading the same logs. Reading a customer's tenant is also a far wider grant than reading the files they sent.",
+  "//layers": "Two independent layers. deniedMcpServers blocks the server itself and merges from every settings source. permissions.deny blocks its tool calls, and deny rules accept globs in the tool-name position, so the patterns below also cover a registration under a name not listed above. Globs are case-sensitive, hence the case variants.",
+  "deniedMcpServers": [
+    { "serverName": "Zscaler_MCP_Server" },
+    { "serverName": "zscaler" },
+    { "serverName": "Zscaler" },
+    { "serverName": "zscaler-mcp" },
+    { "serverName": "zscaler_mcp" },
+    { "serverName": "zscaler-mcp-server" },
+    { "serverName": "zscaler_mcp_server" }
+  ],
+  "permissions": {
+    "deny": [
+      "mcp__*zscaler*",
+      "mcp__*Zscaler*",
+      "mcp__*ZScaler*",
+      "mcp__*ZSCALER*",
+      "mcp__Zscaler_MCP_Server",
+      "mcp__zscaler"
+    ]
+  }
+}

@@ -1,0 +1,56 @@
+.DS_Store
+.venv/
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.ruff_cache/
+*.sqlite
+*.sqlite3
+*.db
+reports/
+uploads/
+.streamlit/secrets.toml
+.run/
+.claude/settings.local.json
+
+# Never commit deployment/customer snapshots or raw diagnostic evidence.
+**/deployment-snapshots/
+**/*deployment-snapshot*.json
+*.pcap
+*.pcapng
+*.etl
+*.har
+*.log
+*.zip
+*.7z
+*.rar
+*.tar
+*.tgz
+*.gz
+*.bz2
+*.xz
+*.cab
+*.dmp
+*.evtx
+*.jsonl
+*.ndjson
+*.mmdb
+*.pem
+*.key
+*.p12
+*.p7b
+*.pfx
+**/captures/
+**/case-files/
+**/customer-data/
+**/customer-evidence/
+**/customer-logs/
+**/evidence/
+**/exports/
+**/packet-captures/
+**/raw-evidence/
+**/support-bundles/
+
+# Local migration/conflict copies are not project source.
+**/* 2.py
+**/* 2.css

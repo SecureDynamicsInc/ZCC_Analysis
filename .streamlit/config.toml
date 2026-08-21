@@ -1,0 +1,47 @@
+# Streamlit theme for zcc_diag.
+#
+# Design intent: a muted dark surface with subdued accents so the
+# triage data carries the visual weight, not the framework chrome.
+# Stock Streamlit blue + bright surfaces made this look like a demo
+# app; the palette below is a slate-based dark theme reminiscent of
+# professional observability tools (Grafana / Linear / Vercel) where
+# the engineer is reading dense data for long stretches.
+#
+# Palette anchors (Tailwind slate scale):
+#   bg            slate-950  #020617
+#   surface       slate-900  #0F172A   (sidebar, expanders, cards)
+#   border        slate-700  #334155   (subtle dividers)
+#   text          slate-100  #F1F5F9
+#   muted text    slate-400  #94A3B8
+#   accent        sky-500    #0EA5E9   (primary interactive)
+#
+# The CSS in ui/styles.py defines additional semantic colors
+# (severity pills, status pills) layered on top of this base.
+
+[theme]
+base = "dark"
+primaryColor = "#0EA5E9"
+backgroundColor = "#020617"
+secondaryBackgroundColor = "#0F172A"
+textColor = "#F1F5F9"
+font = "sans serif"
+
+[browser]
+gatherUsageStats = false
+
+[client]
+# Hide the deploy / hamburger / footer chrome on shared bundles.
+# These belong on streamlit cloud, not on an internal triage tool.
+toolbarMode = "minimal"
+
+[server]
+# Larger upload cap so >100MB support bundles load without complaint.
+maxUploadSize = 500
+# A disconnected browser session is immediately eligible for destruction. This
+# prevents Streamlit from retaining uploaded files or Session State for its
+# normal reconnect grace period after a refresh or closed tab.
+disconnectedSessionTTL = 0
+# Never serve arbitrary files from the working tree.
+enableStaticServing = false
+enableXsrfProtection = true
+enableCORS = true

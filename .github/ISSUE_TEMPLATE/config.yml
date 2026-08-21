@@ -1,0 +1,8 @@
+blank_issues_enabled: false
+contact_links:
+  - name: Security vulnerability
+    url: https://github.com/SecureDynamicsInc/ZCC_Analysis/security/advisories/new
+    about: Report suspected vulnerabilities privately. Never post security details publicly.
+  - name: SecureDynamics contact
+    url: https://securedynamics.net/contact
+    about: Request a private contact route for sensitive matters without including sensitive evidence.

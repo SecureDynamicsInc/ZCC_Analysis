@@ -1,0 +1,44 @@
+name: privacy
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+permissions:
+  contents: read
+
+jobs:
+  privacy:
+    name: privacy
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Reject customer evidence and sensitive-data indicators
+        run: python scripts/check_public_tree.py
+      - name: Reject retention, export, and agent-handoff paths
+        run: python scripts/check_privacy_architecture.py
+      - name: Scan every commit introduced by this change
+        env:
+          EVENT_NAME: ${{ github.event_name }}
+          BEFORE_SHA: ${{ github.event.before }}
+          CURRENT_SHA: ${{ github.sha }}
+          PR_BASE_SHA: ${{ github.event.pull_request.base.sha }}
+          PR_HEAD_SHA: ${{ github.event.pull_request.head.sha }}
+        run: |
+          if [ "$EVENT_NAME" = "pull_request" ]; then
+            RANGE="$PR_BASE_SHA..$PR_HEAD_SHA"
+          elif [ -n "$BEFORE_SHA" ] &&
+               [ "$BEFORE_SHA" != "0000000000000000000000000000000000000000" ] &&
+               git cat-file -e "$BEFORE_SHA^{commit}" 2>/dev/null; then
+            RANGE="$BEFORE_SHA..$CURRENT_SHA"
+          else
+            echo "Initial root commit: the complete tree was checked by the two prior privacy steps."
+            exit 0
+          fi
+          python scripts/check_public_tree.py --commits-range "$RANGE"

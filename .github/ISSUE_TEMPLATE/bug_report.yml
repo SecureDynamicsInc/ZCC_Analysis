@@ -1,0 +1,40 @@
+name: Bug report
+description: Report an analyzer failure or incorrect conclusion; Issues are the only community contribution path
+title: "[Bug] "
+labels: [bug]
+body:
+  - type: textarea
+    id: problem
+    attributes:
+      label: What happened?
+      description: Describe the visible behavior generically. Do not paste, transform, redact, link, or attach customer or production-derived material.
+    validations:
+      required: true
+  - type: dropdown
+    id: service
+    attributes:
+      label: Service area
+      options: [ZCC, ZIA, ZPA, ZDX, Multiple or unknown]
+    validations:
+      required: true
+  - type: textarea
+    id: reproduce
+    attributes:
+      label: How can we reproduce it?
+      description: Include the app mode, service filter, and input type using a synthetic example created from scratch. Do not attach logs, captures, PAC files, screenshots, exports, archives, patches, or repository branches.
+    validations:
+      required: true
+  - type: input
+    id: version
+    attributes:
+      label: Analyzer version
+      placeholder: guided-triage-v5-2026-08-19
+  - type: checkboxes
+    id: safety
+    attributes:
+      label: Data handling confirmation
+      options:
+        - label: I included no real, redacted, transformed, hashed, or summarized customer evidence and attached no logs, captures, PAC files, screenshots, exports, archives, patches, or code.
+          required: true
+        - label: I understand SecureDynamics accepts Issues only and will independently decide whether and how to implement this report.
+          required: true

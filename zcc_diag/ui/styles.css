@@ -1,0 +1,390 @@
+/* zcc_diag — design tokens + component styles.
+ *
+ * Loaded by ``ui/styles.py`` and injected into Streamlit via
+ * ``st.markdown(<style>...</style>, unsafe_allow_html=True)``.
+ *
+ * Keeping the CSS in a real .css file (not a Python triple-quoted
+ * string) gives proper syntax highlighting + lint support in editors
+ * — anyone tweaking the visuals can use Stylelint without round-
+ * tripping through Python.
+ */
+
+/* Tighter page padding, more usable horizontal area. */
+.block-container { padding-top: 1.0rem; padding-bottom: 2rem; max-width: 95rem; }
+section[data-testid="stSidebar"] > div { padding-top: 1rem; }
+section[data-testid="stSidebar"] .stRadio > div { gap: 0.4rem; }
+/* Suppress Streamlit's default oversized h1 inside the main pane.
+   We replace ``st.title`` with a compact custom header below. */
+h1#main-title { display: none; }
+
+/* ---------- Title row (page hero) ---------- */
+.zd-titlebar {
+  display: flex;
+  align-items: baseline;
+  gap: 0.85rem;
+  margin: 0.25rem 0 1rem 0;
+  border-bottom: 1px solid var(--zd-divider);
+  padding-bottom: 0.8rem;
+}
+.zd-titlebar .name {
+  font-size: var(--zd-size-title);
+  font-weight: 600;
+  color: var(--zd-text);
+  letter-spacing: -0.015em;
+  line-height: 1;
+}
+.zd-titlebar .tagline {
+  font-size: var(--zd-size-caption);
+  color: var(--zd-text-dim);
+}
+
+/* Header strip across the top of every module. Three stacked rows
+   (identity / tenant / network), each using a 3-column weighted
+   grid sized to its content. ``min-width: 0`` enables ellipsis. */
+.zd-header {
+  padding: 0.9rem 1.1rem;
+  margin-bottom: 1.1rem;
+  background: rgba(40, 50, 70, 0.40);
+  border: 1px solid rgba(255,255,255,0.08);
+  border-radius: 8px;
+}
+.zd-header .zd-header-row {
+  display: grid;
+  grid-template-columns:
+    minmax(0, 1.6fr)
+    minmax(0, 2.4fr)
+    minmax(0, 2.0fr);
+  gap: 1.4rem;
+}
+.zd-header .zd-header-row + .zd-header-row {
+  margin-top: 0.7rem;
+  padding-top: 0.7rem;
+  border-top: 1px dashed rgba(255,255,255,0.07);
+}
+.zd-header .cell { min-width: 0; }
+.zd-header .cell .lbl {
+  font-size: 10px;
+  color: rgba(255,255,255,0.50);
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+  margin-bottom: 4px;
+  font-weight: 500;
+}
+.zd-header .cell .val {
+  font-size: 13.5px;
+  font-weight: 600;
+  color: #e6eaf2;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  line-height: 1.3;
+}
+
+/* ============================================================
+   DESIGN TOKENS — Batch 1 (2026-06-10)
+   -----------------------------------------------------------
+   Single source of truth for colour + spacing. Every component
+   below references these so future palette tweaks are one-place.
+   Saturation lowered ~40% vs the previous palette so severity
+   accents support the content instead of competing with it.
+   ============================================================ */
+:root {
+  /* Severity accent — used for borders, badges, small accents.
+     NOT used as background fill (the *-fill tokens handle that).
+     Reserved for the SINGLE primary finding the engineer should
+     act on first. Everything else uses the muted variant. */
+  --zd-crit-accent: #e85d6f;
+  --zd-crit-accent-muted: #c47681;
+  --zd-warn-accent: #d6a154;
+  --zd-info-accent: #6a96c9;
+  --zd-ok-accent:   #6ba87f;
+
+  /* Severity background fills — tints, intentionally low alpha. */
+  --zd-crit-fill: rgba(195, 60, 80, 0.08);
+  --zd-warn-fill: rgba(195, 145, 60, 0.07);
+  --zd-info-fill: rgba(80, 130, 195, 0.06);
+  --zd-ok-fill:   rgba(70, 145, 100, 0.06);
+
+  /* Text colour tiers. */
+  --zd-text:       #e6eaf2;
+  --zd-text-mute:  rgba(230, 234, 242, 0.72);
+  --zd-text-dim:   rgba(230, 234, 242, 0.50);
+  --zd-text-fade:  rgba(230, 234, 242, 0.35);
+
+  /* Surface tints. */
+  --zd-surface-1: rgba(255, 255, 255, 0.025);
+  --zd-surface-2: rgba(255, 255, 255, 0.045);
+  --zd-divider:   rgba(255, 255, 255, 0.08);
+
+  /* Typography. */
+  --zd-size-title:    22px;
+  --zd-size-section:  16px;
+  --zd-size-subhead:  13px;
+  --zd-size-body:     14px;
+  --zd-size-caption:  12px;
+  --zd-size-code:     13px;
+}
+
+/* ---------- Severity badges (text on filled chip) ---------- */
+.sev {
+  display: inline-block;
+  padding: 2px 8px;
+  border-radius: 3px;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  vertical-align: middle;
+  color: #fff;
+}
+.sev.crit { background: var(--zd-crit-accent); }
+.sev.warn { background: var(--zd-warn-accent); }
+.sev.info { background: var(--zd-info-accent); }
+.sev.ok   { background: var(--zd-ok-accent); }
+
+/* ---------- Legacy compact finding row ---------- */
+.zd-finding {
+  border: 1px solid var(--zd-divider);
+  border-left: 4px solid var(--zd-text-fade);
+  border-radius: 8px;
+  padding: 0.85rem 1rem 0.5rem 1rem;
+  margin-bottom: 0.75rem;
+  background: var(--zd-surface-1);
+}
+.zd-finding.crit { border-left-color: var(--zd-crit-accent); }
+.zd-finding.warn { border-left-color: var(--zd-warn-accent); }
+.zd-finding.info { border-left-color: var(--zd-info-accent); }
+.zd-finding-head {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.6rem;
+  flex-wrap: wrap;
+}
+.zd-finding-title {
+  flex: 1 1 auto;
+  font-size: var(--zd-size-body);
+  font-weight: 600;
+  color: var(--zd-text);
+  line-height: 1.35;
+}
+.zd-finding-meta-row {
+  flex: 1 1 100%;
+  display: flex;
+  gap: 0.9rem;
+  margin-top: 4px;
+  color: var(--zd-text-dim);
+  font-size: var(--zd-size-caption);
+}
+.zd-finding-code {
+  font-family: ui-monospace, Consolas, monospace;
+  color: var(--zd-text-dim);
+}
+.zd-finding-when { color: var(--zd-text-fade); }
+.zd-finding-count {
+  margin-left: auto;
+  align-self: flex-start;
+  padding: 1px 8px;
+  background: var(--zd-surface-2);
+  border: 1px solid var(--zd-divider);
+  border-radius: 10px;
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--zd-text-mute);
+  white-space: nowrap;
+}
+
+/* ---------- Path-health row status pills ---------- */
+.zd-pill {
+  display: inline-block;
+  padding: 1px 7px;
+  border-radius: 10px;
+  font-size: 11px;
+  font-weight: 600;
+}
+.zd-pill.ok   { background: var(--zd-ok-fill);   color: var(--zd-ok-accent); }
+.zd-pill.warn { background: var(--zd-warn-fill); color: var(--zd-warn-accent); }
+.zd-pill.bad  { background: var(--zd-crit-fill); color: var(--zd-crit-accent); }
+
+/* ---------- Section sub-headers used inside modules ---------- */
+.zd-section {
+  font-size: var(--zd-size-section);
+  color: var(--zd-text);
+  margin: 1.5rem 0 0.6rem 0;
+  font-weight: 600;
+  letter-spacing: -0.005em;
+  padding-left: 10px;
+  border-left: 3px solid var(--zd-divider);
+}
+
+/* ---------- Modern finding card ---------- */
+.zd-finding-card {
+  background: var(--zd-surface-1);
+  border: 1px solid var(--zd-divider);
+  border-left-width: 4px;
+  border-radius: 8px;
+  padding: 14px 18px;
+  margin: 18px 0;
+}
+.zd-finding-card .zd-finding-title {
+  font-size: var(--zd-size-body);
+  font-weight: 600;
+  margin-bottom: 4px;
+}
+.zd-finding-card .zd-finding-meta {
+  font-size: var(--zd-size-caption);
+  color: var(--zd-text-dim);
+  margin-top: 6px;
+}
+.zd-finding-card.zd-sev-bad,
+.zd-finding-card.zd-sev-critical {
+  border-left-color: var(--zd-crit-accent);
+  background: var(--zd-crit-fill);
+}
+.zd-finding-card.zd-sev-warn,
+.zd-finding-card.zd-sev-warning {
+  border-left-color: var(--zd-warn-accent);
+  background: var(--zd-warn-fill);
+}
+.zd-finding-card.zd-sev-info {
+  border-left-color: var(--zd-info-accent);
+  background: var(--zd-info-fill);
+}
+.zd-finding-card.zd-sev-ok {
+  border-left-color: var(--zd-ok-accent);
+  background: var(--zd-ok-fill);
+}
+
+/* ---------- Severity-overview tiles (Overview hero) ---------- */
+.zd-sev-tiles {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 14px;
+  margin: 6px 0 14px 0;
+}
+.zd-sev-tile {
+  background: var(--zd-surface-1);
+  border: 1px solid var(--zd-divider);
+  border-radius: 10px;
+  padding: 14px 18px;
+}
+.zd-sev-tile .zd-sev-tile-label {
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--zd-text-dim);
+  margin-bottom: 6px;
+}
+.zd-sev-tile .zd-sev-tile-value {
+  font-size: 28px;
+  font-weight: 600;
+  line-height: 1.1;
+  color: var(--zd-text);
+}
+.zd-sev-tile.zd-tile-crit.has-value {
+  background: var(--zd-crit-fill);
+  border-color: rgba(232, 93, 111, 0.32);
+}
+.zd-sev-tile.zd-tile-crit.has-value .zd-sev-tile-value {
+  color: var(--zd-crit-accent);
+}
+.zd-sev-tile.zd-tile-warn.has-value {
+  background: var(--zd-warn-fill);
+  border-color: rgba(214, 161, 84, 0.30);
+}
+.zd-sev-tile.zd-tile-warn.has-value .zd-sev-tile-value {
+  color: var(--zd-warn-accent);
+}
+.zd-sev-tile.zd-tile-info.has-value {
+  background: var(--zd-info-fill);
+  border-color: rgba(106, 150, 201, 0.30);
+}
+.zd-sev-tile.zd-tile-info.has-value .zd-sev-tile-value {
+  color: var(--zd-info-accent);
+}
+
+/* ---------- Streamlit widget tweaks ---------- */
+div[data-testid="stStatus"] {
+  border-radius: 8px;
+  margin-bottom: 0.5rem !important;
+}
+[data-testid="stMetricValue"] {
+  font-size: 28px;
+  font-weight: 600;
+  color: var(--zd-text);
+}
+[data-testid="stMetricLabel"] {
+  font-size: 12px;
+  color: var(--zd-text-dim);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+[data-testid="stCaptionContainer"],
+[data-testid="stCaption"] {
+  font-size: var(--zd-size-caption);
+  color: var(--zd-text-dim);
+}
+[data-testid="stMarkdownContainer"] p {
+  font-size: var(--zd-size-body);
+  line-height: 1.55;
+}
+[data-testid="stMarkdownContainer"] code,
+[data-testid="stCodeBlock"] {
+  font-size: var(--zd-size-code);
+}
+h1 a, h2 a, h3 a { display: none !important; }
+h1, h2, h3 {
+  color: var(--zd-text);
+  letter-spacing: -0.01em;
+}
+h1 { font-size: var(--zd-size-title); font-weight: 600; }
+h2 { font-size: var(--zd-size-section); font-weight: 600; }
+h3 { font-size: var(--zd-size-subhead); font-weight: 600;
+     text-transform: uppercase; letter-spacing: 0.06em;
+     color: var(--zd-text-mute); }
+
+/* ---------- Sidebar -- compact nav, slim uploader ---------- */
+section[data-testid="stSidebar"] > div {
+  padding-top: 1rem !important;
+  padding-left: 0.85rem !important;
+  padding-right: 0.85rem !important;
+}
+section[data-testid="stSidebar"] h3 {
+  font-size: 11px !important;
+  color: var(--zd-text-dim) !important;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  margin: 0.4rem 0 0.5rem 0 !important;
+  font-weight: 600;
+  border: none !important;
+  padding: 0 !important;
+}
+section[data-testid="stSidebar"] .stRadio > div {
+  gap: 2px;
+}
+section[data-testid="stSidebar"] .stRadio label {
+  padding: 0.32rem 0.55rem;
+  border-radius: 5px;
+  transition: background 0.12s;
+  font-size: 13px;
+}
+section[data-testid="stSidebar"] .stRadio label:hover {
+  background: rgba(255, 255, 255, 0.05);
+}
+section[data-testid="stSidebar"] .stRadio [data-baseweb="radio"][aria-checked="true"] + div {
+  color: var(--zd-text);
+  font-weight: 500;
+}
+section[data-testid="stSidebar"] [data-testid="stFileUploader"] {
+  padding-top: 0;
+}
+section[data-testid="stSidebar"] [data-testid="stFileUploader"] section {
+  padding: 0.8rem !important;
+  border-style: dashed;
+}
+section[data-testid="stSidebar"] [data-testid="stFileUploaderDropzoneInstructions"] {
+  font-size: 11px;
+}
+section[data-testid="stSidebar"] .stButton button,
+section[data-testid="stSidebar"] .stDownloadButton button {
+  padding: 0.32rem 0.7rem !important;
+  font-size: 12.5px !important;
+}

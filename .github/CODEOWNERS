@@ -1,0 +1,25 @@
+# SecureDynamics retains final review authority over every path.
+* @SecureDynamicsInc/zcc-maintainers
+
+# Governance, security, licensing, and contribution policy always require the
+# lead SecureDynamics Code Owner.
+/LICENSE @SecureDynamicsInc/zcc-maintainers
+/NOTICE @SecureDynamicsInc/zcc-maintainers
+/TRADEMARKS.md @SecureDynamicsInc/zcc-maintainers
+/THIRD_PARTY_NOTICES.md @SecureDynamicsInc/zcc-maintainers
+/SECURITY.md @SecureDynamicsInc/zcc-maintainers
+/CODE_OF_CONDUCT.md @SecureDynamicsInc/zcc-maintainers
+/GOVERNANCE.md @SecureDynamicsInc/zcc-maintainers
+/MAINTAINERS.md @SecureDynamicsInc/zcc-maintainers
+/docs/DATA_HANDLING.md @SecureDynamicsInc/zcc-maintainers
+/docs/PRIVACY_ARCHITECTURE.md @SecureDynamicsInc/zcc-maintainers
+/AGENTS.md @SecureDynamicsInc/zcc-maintainers
+/CLAUDE.md @SecureDynamicsInc/zcc-maintainers
+/.githooks/ @SecureDynamicsInc/zcc-maintainers
+/scripts/check_public_tree.py @SecureDynamicsInc/zcc-maintainers
+/scripts/check_privacy_architecture.py @SecureDynamicsInc/zcc-maintainers
+/zcc_diag/transient_runtime.py @SecureDynamicsInc/zcc-maintainers
+/zcc_diag_ui.py @SecureDynamicsInc/zcc-maintainers
+/.streamlit/config.toml @SecureDynamicsInc/zcc-maintainers
+/DCO @SecureDynamicsInc/zcc-maintainers
+/.github/ @SecureDynamicsInc/zcc-maintainers

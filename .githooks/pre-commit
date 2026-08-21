@@ -1,0 +1,10 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+ROOT="$(git rev-parse --show-toplevel)"
+cd "$ROOT"
+
+python scripts/check_public_tree.py --staged
+python scripts/check_privacy_architecture.py
+
+echo "Privacy checks passed for the staged change."

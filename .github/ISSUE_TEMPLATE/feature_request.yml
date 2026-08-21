@@ -1,0 +1,33 @@
+name: Enhancement request
+description: Propose a troubleshooting or usability improvement; Issues are the only community contribution path
+title: "[Enhancement] "
+labels: [enhancement]
+body:
+  - type: textarea
+    id: outcome
+    attributes:
+      label: Engineer outcome
+      description: What faster or more reliable conclusion should this enable?
+    validations:
+      required: true
+  - type: textarea
+    id: evidence
+    attributes:
+      label: Evidence and scope
+      description: Describe relevant record types, codes, or packet signals generically using only a synthetic example created from scratch. Do not paste, transform, redact, link, or attach real evidence, screenshots, patches, branches, or code.
+    validations:
+      required: true
+  - type: textarea
+    id: local_experiment
+    attributes:
+      label: What worked locally (optional)
+      description: If you tested an improvement in your own local copy, describe the resulting behavior and how to verify it without posting code, diffs, patches, branches, screenshots, or diagnostic data.
+  - type: checkboxes
+    id: safety
+    attributes:
+      label: Data handling confirmation
+      options:
+        - label: I included no real, redacted, transformed, hashed, or summarized customer evidence and attached no logs, captures, PAC files, screenshots, exports, archives, patches, or code.
+          required: true
+        - label: I understand SecureDynamics accepts Issues only and will independently decide whether and how to implement this request.
+          required: true

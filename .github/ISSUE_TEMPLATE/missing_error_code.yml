@@ -1,0 +1,40 @@
+name: Missing or incorrect Zscaler code
+description: Request a reference improvement without supplying customer evidence or code
+title: "[Code reference] "
+labels: [documentation]
+body:
+  - type: dropdown
+    id: product
+    attributes:
+      label: Zscaler product
+      options: [ZCC, ZIA, ZPA, ZDX, Unknown or multiple]
+    validations:
+      required: true
+  - type: input
+    id: code
+    attributes:
+      label: Exact code or status message
+      description: Preserve punctuation, capitalization, and any leading minus sign.
+    validations:
+      required: true
+  - type: textarea
+    id: context
+    attributes:
+      label: Synthetic reproduction or public source
+      description: Provide a synthetic line created from scratch or an official public documentation link. Never paste, transform, redact, or attach a real customer record.
+    validations:
+      required: true
+  - type: input
+    id: source
+    attributes:
+      label: Zscaler documentation link, if known
+      placeholder: https://help.zscaler.com/...
+  - type: checkboxes
+    id: safety
+    attributes:
+      label: Data handling confirmation
+      options:
+        - label: I used no real, redacted, transformed, hashed, or summarized customer evidence and attached no logs, captures, PAC files, screenshots, exports, archives, patches, or code.
+          required: true
+        - label: I understand SecureDynamics accepts Issues only and will independently verify and implement any accepted correction.
+          required: true
